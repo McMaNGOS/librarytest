@@ -24,28 +24,7 @@ public class SelenideTest extends TestBase {
     }
     
     Randomizers randomizers = new Randomizers();
-    
-    @Test
-    @Ignore
-    public void testCreateNewAuthor(){
-        String authorFirstName = RandomStringUtils.randomAlphabetic(5);
-        String authorLastName = RandomStringUtils.randomAlphabetic(5);
-        String authorCountry = RandomStringUtils.randomAlphabetic(5);
-        String authorBiography = RandomStringUtils.randomAlphabetic(5);
-        String authorFullName = authorFirstName + " " + authorLastName;
-        
-        UserHelper.logInAsUser("admin", "1234567890");
-        
-        AuthorHelper.createNewAuthor(authorFirstName, authorLastName, authorCountry, authorBiography);
-        AuthorHelper.searchAuthorByName(authorFirstName);
-        
-        BrowseAuthorsPage browseAuthorsPage = page(BrowseAuthorsPage.class);
-        browseAuthorsPage.clickFirstResultAuthor();
-        
-        AuthorPage authorPage = page(AuthorPage.class);
-        assertEquals("Author name should be" + authorFullName, authorFullName, authorPage.getAuthorName());
-    }
-    
+     
     @Test
     public void testChangeUserEmail(){
         String username = randomizers.generateAlphabeticString(5);
@@ -70,7 +49,6 @@ public class SelenideTest extends TestBase {
     }
     
     @Test
-    @Ignore
     public void testChangePublishDate(){
         String newDate = randomizers.generateRandomDate();
         
@@ -94,40 +72,5 @@ public class SelenideTest extends TestBase {
         back(); // Navigates back to the book page
         
         assertEquals("Date should be " + newDate, newDate, bookPage.getDate());
-    }
-    
-    @Test
-    @Ignore
-    public void testBorrowBook(){
-        String username = randomizers.generateAlphabeticString(5);
-        String password = randomizers.generateAlphabeticString(5);
-        String email = randomizers.generateAlphabeticString(5);
-        
-        UserHelper.createNewUser(username, password, email);
-        UserHelper.logInAsUser(username, password);
-        
-        page(MenuPage.class).navigateToBrowseBooks();
-        
-        BrowseBooksPage browseBooksPage = page(BrowseBooksPage.class);
-        browseBooksPage.setTitleField("Good Omens");
-        browseBooksPage.clickSearchBooksButton();
-        Table bookPageTable = new Table($(".v-grid-tablewrapper"));
-        bookPageTable.searchAndClick("Good Omens", 0);
-        
-        BookPage bookPage = page(BookPage.class);
-        int availableCopiesBeforeBorrow = Integer.parseInt(bookPage.getCopiesLeft());
-        bookPage.clickBorrowBookButton();
-        bookPage.clickConfirmDialogButton();
-        int availableCopiesAfterBorrow = Integer.parseInt(bookPage.getCopiesLeft());
-        assertEquals("Should be one less copy available", availableCopiesBeforeBorrow - 1, availableCopiesAfterBorrow);
-        
-        page(MenuPage.class).navigateToMyProfile();
-        Table myProfileTable = new Table($(".v-grid-tablewrapper"));
-        myProfileTable.searchAndClick("Good Omens", 0);
-        assertEquals("Should end up on book page for Good Omens", "Good Omens", bookPage.getTitle());
-        
-        bookPage.clickReturnBookButton();
-        bookPage.clickConfirmDialogButton();
-        assertEquals("Should be one additional copy available", availableCopiesAfterBorrow + 1, availableCopiesBeforeBorrow);
     }
 }
