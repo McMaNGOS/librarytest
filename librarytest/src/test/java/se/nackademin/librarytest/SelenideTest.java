@@ -115,10 +115,7 @@ public class SelenideTest extends TestBase {
         int availableCopiesBeforeBorrow = Integer.parseInt(bookPage.getCopiesLeft());
         bookPage.clickBorrowBookButton();
         bookPage.clickConfirmDialogButton();
-<<<<<<< HEAD:librarytest/src/test/java/se/nackademin/librarytest/SelenideTest.java
         sleep(300); // Ensures that the amount of copies left has time to update
-=======
->>>>>>> parent of 17e620d... Modified selenide test cases:selenidetest/src/test/java/se/nackademin/librarytest/SelenideTest.java
         int availableCopiesAfterBorrow = Integer.parseInt(bookPage.getCopiesLeft());
         assertEquals("Should be one less copy available", availableCopiesBeforeBorrow - 1, availableCopiesAfterBorrow);
         
@@ -131,8 +128,4 @@ public class SelenideTest extends TestBase {
         bookPage.clickConfirmDialogButton();
         assertEquals("Should be one additional copy available", availableCopiesAfterBorrow + 1, availableCopiesBeforeBorrow);
     }
-<<<<<<< HEAD:librarytest/src/test/java/se/nackademin/librarytest/SelenideTest.java
 }
-=======
-}
->>>>>>> parent of 17e620d... Modified selenide test cases:selenidetest/src/test/java/se/nackademin/librarytest/SelenideTest.java
