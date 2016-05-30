@@ -24,6 +24,10 @@ public class BookPage extends MenuPage {
     private SelenideElement confirmDialogButton;
     @FindBy(css = "#return-book-button")
     private SelenideElement returnBookButton;
+    @FindBy(css = "#delete-book-button")
+    private SelenideElement deleteBookButton;
+    @FindBy(css = ".v-label")
+    private SelenideElement invalidBookMessage;
     
     public String getTitle(){
         return getTextFromField("title field", titleField);
@@ -45,6 +49,10 @@ public class BookPage extends MenuPage {
         return getTextFromField("copies left field", copiesLeftField);
     }
     
+    public String getInvalidBookMessage(){
+        return getTextFromField("invalid book error message", invalidBookMessage);
+    }
+    
     public void clickEditBookButton(){
         clickButton("edit book button", editBookButton);
     }
@@ -61,4 +69,7 @@ public class BookPage extends MenuPage {
         clickButton("return book button", returnBookButton);
     }
     
+    public void clickDeleteBookButton(){
+        clickButton("delete book button", deleteBookButton);
+    }
 }

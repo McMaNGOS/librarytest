@@ -13,6 +13,8 @@ public class MenuPage extends PageBase {
     private SelenideElement myProfile;
     @FindBy(css = "#side-menu-link-browse-books")
     private SelenideElement browseBooks;
+    @FindBy(css = "#side-menu-link-add-book")
+    private SelenideElement addBook;
     @FindBy(css = "#side-menu-link-add-author")
     private SelenideElement addAuthor;
     @FindBy(css = "#side-menu-link-browse-authors")
@@ -32,6 +34,10 @@ public class MenuPage extends PageBase {
     
     public void navigateToMyProfile(){
         clickButton("my profile page button", myProfile);
+    }
+    
+    public void navigateToAddBook(){
+        clickButton("add book page button", addBook);
     }
     
     public void navigateToBrowseBooks(){
