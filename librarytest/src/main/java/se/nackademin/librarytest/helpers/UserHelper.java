@@ -1,12 +1,13 @@
 package se.nackademin.librarytest.helpers;
 
 import static com.codeborne.selenide.Selenide.page;
+import static com.codeborne.selenide.Selenide.sleep;
 import se.nackademin.librarytest.pages.AddUserPage;
 import se.nackademin.librarytest.pages.MenuPage;
 import se.nackademin.librarytest.pages.SignInPage;
 
 public class UserHelper {
-    public static void createNewUser(String username, String password, String email){
+    public static void createNewUser(String username, String password, String email, boolean librarian){
         MenuPage menuPage = page(MenuPage.class);
         menuPage.navigateToAddUser();
         
@@ -14,7 +15,14 @@ public class UserHelper {
         addUserPage.setUsername(username);
         addUserPage.setPassword(password);
         addUserPage.setEmail(email);
-        addUserPage.clickAddUserButton();
+        
+        if (librarian = true){
+            addUserPage.setLibrarianButtonToTrue();
+            sleep(2000);
+            addUserPage.clickAddUserButton();
+        } else {
+            addUserPage.clickAddUserButton();
+        }
     }
     
     public static void logInAsUser(String username, String password){

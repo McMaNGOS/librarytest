@@ -13,6 +13,11 @@ public class PageBase {
         element.click();
     }
     
+    protected void setSelectedToTrue(String descriptor, SelenideElement element){
+        LOG.log(Level.INFO, "Setting {0} to true", descriptor);
+        element.setSelected(true);
+    }
+    
     protected void setTextFieldValue(String descriptor, String value, SelenideElement element){
         LOG.log(Level.INFO, "Setting {0} to {1}", new Object[]{descriptor, value});
         element.clear();

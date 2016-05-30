@@ -9,6 +9,7 @@ import se.nackademin.librarytest.helpers.AuthorHelper;
 import se.nackademin.librarytest.helpers.Table;
 import se.nackademin.librarytest.helpers.UserHelper;
 import se.nackademin.librarytest.helpers.BookHelper;
+import se.nackademin.librarytest.methods.Elements;
 import se.nackademin.librarytest.pages.AuthorPage;
 import se.nackademin.librarytest.pages.BrowseAuthorsPage;
 import se.nackademin.librarytest.pages.BrowseBooksPage;
@@ -18,6 +19,7 @@ import se.nackademin.librarytest.pages.MyProfilePage;
 import se.nackademin.librarytest.methods.Randomizers;
 import se.nackademin.librarytest.model.Book;
 import se.nackademin.librarytest.pages.AddBookPage;
+import se.nackademin.librarytest.pages.AddUserPage;
 import se.nackademin.librarytest.pages.BookPage;
 import se.nackademin.librarytest.pages.EditBookPage;
 
@@ -27,7 +29,40 @@ public class SelenideTest extends TestBase {
     }
     
     Randomizers randomizers = new Randomizers();
+    Elements elements = new Elements();
     
+    @Ignore
+    @Test
+    public void testBorrowBookWithNoCopiesLeft(){
+        UserHelper.logInAsUser("admin", "1234567890");
+        
+        BookHelper.createNewBookWithFirstAuthorInList(randomizers.generateAlphabeticString(5), "1");
+        
+        AddBookPage addBookPage = page(AddBookPage.class);
+        addBookPage.clickNewlyAddedBookButton();
+        sleep(100);
+        
+        assertFalse("The borrow book element should be missing", elements.locateElement("borrow-book-button"));
+    }
+    
+    @Test
+    public void testCreateNewLibrarian(){
+        String username = randomizers.generateAlphabeticString(5);
+        String password = randomizers.generateAlphabeticString(5);
+        String email = randomizers.generateAlphabeticString(5);
+                
+        UserHelper.logInAsUser("admin", "1234567890");
+        
+        UserHelper.createNewUser(username, password, email, true); // Librarian button does not get clicked, must fix
+        UserHelper.logInAsUser(username, password);
+        
+        page(MenuPage.class).navigateToAddBook();
+        
+        AddBookPage addBookPage = page(AddBookPage.class);
+        assertEquals("Librarian should see content header, as they have access to the page", "Add book", addBookPage.getAddBookContentHeader());
+    }
+    
+    @Ignore
     @Test
     public void testDeleteAuthorWithBooks(){
         UserHelper.logInAsUser("admin", "1234567890");
@@ -43,6 +78,36 @@ public class SelenideTest extends TestBase {
         assertEquals("Error message should ", authorPage.getErrorDescription(), "Unable to delete entity: Conflict, Unable to delete author - author still has books in the database?");
     }
     
+    @Ignore
+    @Test
+    public void testCreateBookWithoutTitle(){
+        UserHelper.logInAsUser("admin", "1234567890");
+        
+        MenuPage menuPage = page(MenuPage.class);
+        menuPage.navigateToAddBook();
+        
+        AddBookPage addBookPage = page(AddBookPage.class);
+        addBookPage.setBookTitle("");
+        addBookPage.setBookDatePublished(randomizers.generateRandomDate());
+        addBookPage.clickAddBookButton();
+        sleep(100);
+        
+        assertEquals("Should display an error saying 'Invalid data, please try again.'", "Invalid data, please try again.", addBookPage.getInvalidDataMessage()); 
+    }
+    
+    @Ignore
+    @Test
+    public void testCreateUserWithExisitngUsername(){
+        String password = randomizers.generateAlphabeticString(5);
+        String email = randomizers.generateAlphabeticString(5);
+        UserHelper.createNewUser("admin", password, email, false);
+        
+        AddUserPage addUserPage = page(AddUserPage.class);
+        
+        assertEquals("Should display error about username already existing", "Unable to add user: Unable to create entity: Bad Request, User with same display name already exists.", addUserPage.getAddUserErrorMessage());
+    }
+    
+    @Ignore
     @Test
     public void testCreateAndDeleteBook(){
         String title = randomizers.generateAlphabeticString(5);
@@ -68,6 +133,7 @@ public class SelenideTest extends TestBase {
         assertEquals("Error message should say 'Invalid book'", "Invalid book.", bookPage.getInvalidBookMessage());
     }
     
+    @Ignore
     @Test
     public void testCreateAndDeleteNewAuthor(){
         String authorFirstName = randomizers.generateAlphabeticString(5);
@@ -95,6 +161,7 @@ public class SelenideTest extends TestBase {
         assertEquals("Error message should say 'Invalid author.'", "Invalid author.", authorPage.getInvalidAuthorMessage());
     }
     
+    @Ignore
     @Test
     public void testChangeUserEmail(){
         String username = randomizers.generateAlphabeticString(5);
@@ -102,7 +169,7 @@ public class SelenideTest extends TestBase {
         String email = randomizers.generateAlphabeticString(5);
         String newEmail = randomizers.generateAlphabeticString(5);
         
-        UserHelper.createNewUser(username, password, email);
+        UserHelper.createNewUser(username, password, email, false);
         UserHelper.logInAsUser(username, password);
         
         page(MenuPage.class).navigateToMyProfile();
@@ -118,6 +185,7 @@ public class SelenideTest extends TestBase {
         assertEquals("Email should be " + newEmail, newEmail, myProfilePage.getEmail());
     }
     
+    @Ignore
     @Test
     public void testChangePublishDate(){
         String newDate = randomizers.generateRandomDate();
@@ -144,13 +212,14 @@ public class SelenideTest extends TestBase {
         assertEquals("Date should be " + newDate, newDate, bookPage.getDate());
     }
     
+    @Ignore
     @Test
     public void testBorrowAndReturnBook(){
         String username = randomizers.generateAlphabeticString(5);
         String password = randomizers.generateAlphabeticString(5);
         String email = randomizers.generateAlphabeticString(5);
         
-        UserHelper.createNewUser(username, password, email);
+        UserHelper.createNewUser(username, password, email, false);
         UserHelper.logInAsUser(username, password);
         
         page(MenuPage.class).navigateToBrowseBooks();

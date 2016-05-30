@@ -12,6 +12,10 @@ public class AddUserPage extends MenuPage {
     private SelenideElement emailField;
     @FindBy(css = "#add-user-button")
     private SelenideElement addUserButton;
+    @FindBy(css = ".v-label-undef-w")
+    private SelenideElement addUserErrorMessage;
+    @FindBy(css = "#gwt-uid-16")
+    private SelenideElement librarianButton;
     
     public void setUsername(String username){
         setTextFieldValue("username field", username, userNameField);
@@ -25,7 +29,15 @@ public class AddUserPage extends MenuPage {
         setTextFieldValue("email field", email, emailField);
     }
     
+    public String getAddUserErrorMessage(){
+        return getTextFromField("add user error message", addUserErrorMessage);
+    }
+    
     public void clickAddUserButton(){
         clickButton("add user button", addUserButton);
+    }
+    
+    public void setLibrarianButtonToTrue(){
+        setSelectedToTrue("librarian button", librarianButton);
     }
 }

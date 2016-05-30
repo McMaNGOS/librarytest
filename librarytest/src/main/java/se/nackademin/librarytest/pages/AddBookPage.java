@@ -20,6 +20,10 @@ public class AddBookPage extends MenuPage {
     private SelenideElement addBookButton;
     @FindBy(css = "div.v-slot:nth-child(17) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > a:nth-child(1)")
     private SelenideElement newlyAddedBookButton;
+    @FindBy(css = ".v-label-undef-w")
+    private SelenideElement invalidDataMessage;
+    @FindBy(css = "#main-content-header")
+    private SelenideElement addBookContentHeader;
             
     public void setBookTitle(String title){
         setTextFieldValue("book title", title, bookTitleField);
@@ -31,6 +35,14 @@ public class AddBookPage extends MenuPage {
     
     public void setBookDatePublished(String datePublished){
         setTextFieldValue("date published", datePublished, bookDatePublishedField);
+    }
+    
+    public String getInvalidDataMessage(){
+        return getTextFromField("invalid data message", invalidDataMessage);
+    }
+    
+    public String getAddBookContentHeader(){
+        return getTextFromField("add book content header", addBookContentHeader);
     }
     
     public void clickAddSelectedAuthorButton(){
