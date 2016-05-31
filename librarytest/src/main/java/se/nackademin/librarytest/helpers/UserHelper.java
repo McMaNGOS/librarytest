@@ -16,9 +16,8 @@ public class UserHelper {
         addUserPage.setPassword(password);
         addUserPage.setEmail(email);
         
-        if (librarian = true){
-            addUserPage.setLibrarianButtonToTrue();
-            sleep(2000);
+        if (librarian == true){
+            addUserPage.clickLibrarianButton();
             addUserPage.clickAddUserButton();
         } else {
             addUserPage.clickAddUserButton();

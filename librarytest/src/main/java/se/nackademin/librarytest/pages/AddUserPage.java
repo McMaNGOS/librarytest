@@ -14,7 +14,7 @@ public class AddUserPage extends MenuPage {
     private SelenideElement addUserButton;
     @FindBy(css = ".v-label-undef-w")
     private SelenideElement addUserErrorMessage;
-    @FindBy(css = "#gwt-uid-16")
+    @FindBy(css = "#gwt-uid-15 > span:nth-child(1) > label")
     private SelenideElement librarianButton;
     
     public void setUsername(String username){
@@ -37,7 +37,7 @@ public class AddUserPage extends MenuPage {
         clickButton("add user button", addUserButton);
     }
     
-    public void setLibrarianButtonToTrue(){
-        setSelectedToTrue("librarian button", librarianButton);
+    public void clickLibrarianButton(){
+        clickButton("librarian button", librarianButton);
     }
 }

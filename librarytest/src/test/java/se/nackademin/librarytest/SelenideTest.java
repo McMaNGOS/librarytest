@@ -1,7 +1,6 @@
 package se.nackademin.librarytest;
 
 import static com.codeborne.selenide.Selenide.*;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
@@ -9,7 +8,6 @@ import se.nackademin.librarytest.helpers.AuthorHelper;
 import se.nackademin.librarytest.helpers.Table;
 import se.nackademin.librarytest.helpers.UserHelper;
 import se.nackademin.librarytest.helpers.BookHelper;
-import se.nackademin.librarytest.methods.Elements;
 import se.nackademin.librarytest.pages.AuthorPage;
 import se.nackademin.librarytest.pages.BrowseAuthorsPage;
 import se.nackademin.librarytest.pages.BrowseBooksPage;
@@ -17,7 +15,6 @@ import se.nackademin.librarytest.pages.EditUserPage;
 import se.nackademin.librarytest.pages.MenuPage;
 import se.nackademin.librarytest.pages.MyProfilePage;
 import se.nackademin.librarytest.methods.Randomizers;
-import se.nackademin.librarytest.model.Book;
 import se.nackademin.librarytest.pages.AddBookPage;
 import se.nackademin.librarytest.pages.AddUserPage;
 import se.nackademin.librarytest.pages.BookPage;
@@ -29,22 +26,24 @@ public class SelenideTest extends TestBase {
     }
     
     Randomizers randomizers = new Randomizers();
-    Elements elements = new Elements();
     
-    @Ignore
     @Test
     public void testBorrowBookWithNoCopiesLeft(){
         UserHelper.logInAsUser("admin", "1234567890");
         
-        BookHelper.createNewBookWithFirstAuthorInList(randomizers.generateAlphabeticString(5), "1");
+        BookHelper.createNewBookWithFirstAuthorInList(randomizers.generateAlphabeticString(5), "0");
         
         AddBookPage addBookPage = page(AddBookPage.class);
         addBookPage.clickNewlyAddedBookButton();
-        sleep(100);
         
-        assertFalse("The borrow book element should be missing", elements.locateElement("borrow-book-button"));
+        BookPage bookPage = page(BookPage.class);
+        boolean borrowBookButtonExists = bookPage.getBorrowBookButtonExists();
+        sleep(5000);
+        
+        assertFalse("The borrow book element should be missing", borrowBookButtonExists);
     }
     
+    @Ignore
     @Test
     public void testCreateNewLibrarian(){
         String username = randomizers.generateAlphabeticString(5);

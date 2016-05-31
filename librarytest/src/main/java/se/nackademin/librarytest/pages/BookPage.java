@@ -1,9 +1,14 @@
 package se.nackademin.librarytest.pages;
 
 import com.codeborne.selenide.SelenideElement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.openqa.selenium.support.FindBy;
 
 public class BookPage extends MenuPage {
+    
+    private static final Logger LOG = Logger.getLogger(BookPage.class.getName());
+    
     @FindBy(css = "#gwt-uid-3")
     private SelenideElement titleField;
     @FindBy(css = "#gwt-uid-5")
@@ -51,6 +56,12 @@ public class BookPage extends MenuPage {
     
     public String getInvalidBookMessage(){
         return getTextFromField("invalid book error message", invalidBookMessage);
+    }
+    
+    public boolean getBorrowBookButtonExists(){
+    LOG.log(Level.INFO, "Checking if borrow book button exists");
+    boolean result = borrowBookButton.exists();
+    return result;
     }
     
     public void clickEditBookButton(){
