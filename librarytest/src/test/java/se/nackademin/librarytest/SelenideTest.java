@@ -59,20 +59,22 @@ public class SelenideTest extends TestBase {
         AddBookPage addBookPage = page(AddBookPage.class);
         assertEquals("Librarian should see content header, as they have access to the page", "Add book", addBookPage.getAddBookContentHeader());
     }
-    
+
     @Test
     public void testDeleteAuthorWithBooks(){
         UserHelper.logInAsUser("admin", "1234567890");
         
-        AuthorHelper.searchAuthorByName("Terry Pratchett");
+        AuthorHelper.searchAuthorByName("Arthur");
+        sleep(1000);
         page(BrowseAuthorsPage.class).clickFirstResultAuthor();
+        sleep(1000);
         
         AuthorPage authorPage = page(AuthorPage.class);
         authorPage.clickDeleteAuthorButton();
         authorPage.clickConfirmDialogButton();
-        sleep(100);
+        sleep(1000);
         
-        assertEquals("Error message should ", authorPage.getErrorDescription(), "Unable to delete entity: Conflict, Unable to delete author - author still has books in the database?");
+        assertEquals("Error message should say 'Unable to delete entity'", authorPage.getErrorDescription(), "Unable to delete entity: Conflict, Unable to delete author - author still has books in the database?");
     }
     
     @Test
@@ -101,7 +103,7 @@ public class SelenideTest extends TestBase {
         
         assertEquals("Should display error about username already existing", "Unable to add user: Unable to create entity: Bad Request, User with same display name already exists.", addUserPage.getAddUserErrorMessage());
     }
-    
+
     @Test
     public void testCreateAndDeleteBook(){
         String title = randomizers.generateAlphabeticString(5);
@@ -126,7 +128,7 @@ public class SelenideTest extends TestBase {
         back(); // returns to the previously deleted book, which should then be missing (asserted below)
         assertEquals("Error message should say 'Invalid book'", "Invalid book.", bookPage.getInvalidBookMessage());
     }
-    
+
     @Test
     public void testCreateAndDeleteNewAuthor(){
         String authorFirstName = randomizers.generateAlphabeticString(5);
@@ -153,7 +155,7 @@ public class SelenideTest extends TestBase {
         back(); // Goes back to the previously deleted author, which should result in an error, asserted below
         assertEquals("Error message should say 'Invalid author.'", "Invalid author.", authorPage.getInvalidAuthorMessage());
     }
-    
+
     @Test
     public void testChangeUserEmail(){
         String username = randomizers.generateAlphabeticString(5);
@@ -176,7 +178,7 @@ public class SelenideTest extends TestBase {
         page(MenuPage.class).navigateToMyProfile();
         assertEquals("Email should be " + newEmail, newEmail, myProfilePage.getEmail());
     }
-    
+
     @Test
     public void testChangePublishDate(){
         String newDate = randomizers.generateRandomDate();
@@ -202,7 +204,7 @@ public class SelenideTest extends TestBase {
         
         assertEquals("Date should be " + newDate, newDate, bookPage.getDate());
     }
-    
+
     @Test
     public void testBorrowAndReturnBook(){
         String username = randomizers.generateAlphabeticString(5);
