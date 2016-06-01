@@ -9,7 +9,7 @@ import se.nackademin.librarytest.restoperations.LoansOperations;
 public class LoansTest {
     
     // /loans endpoint coverage (1/3)
-        @Ignore
+
     @Test
     public void testCreateLoan(){
         Response postResponse = new LoansOperations().createNewLoan(1, 13);
@@ -24,7 +24,6 @@ public class LoansTest {
     // /loans/{id} endpoint coverage (1/2)
     
     @Test
-
     public void testGetLoan(){
         Response postResponse = new LoansOperations().createNewLoan(1, 13);
         assertEquals("Status code should be 201", 201, postResponse.getStatusCode());
