@@ -37,13 +37,12 @@ public class SelenideTest extends TestBase {
         addBookPage.clickNewlyAddedBookButton();
         
         BookPage bookPage = page(BookPage.class);
+        sleep(2000);
         boolean borrowBookButtonExists = bookPage.getBorrowBookButtonExists();
-        sleep(5000);
         
-        assertFalse("The borrow book element should be missing", borrowBookButtonExists);
+        assertFalse("When zero books are available, the borrow book button should be missing", borrowBookButtonExists);
     }
     
-    @Ignore
     @Test
     public void testCreateNewLibrarian(){
         String username = randomizers.generateAlphabeticString(5);
@@ -52,7 +51,7 @@ public class SelenideTest extends TestBase {
                 
         UserHelper.logInAsUser("admin", "1234567890");
         
-        UserHelper.createNewUser(username, password, email, true); // Librarian button does not get clicked, must fix
+        UserHelper.createNewUser(username, password, email, true);
         UserHelper.logInAsUser(username, password);
         
         page(MenuPage.class).navigateToAddBook();
@@ -61,7 +60,6 @@ public class SelenideTest extends TestBase {
         assertEquals("Librarian should see content header, as they have access to the page", "Add book", addBookPage.getAddBookContentHeader());
     }
     
-    @Ignore
     @Test
     public void testDeleteAuthorWithBooks(){
         UserHelper.logInAsUser("admin", "1234567890");
@@ -77,7 +75,6 @@ public class SelenideTest extends TestBase {
         assertEquals("Error message should ", authorPage.getErrorDescription(), "Unable to delete entity: Conflict, Unable to delete author - author still has books in the database?");
     }
     
-    @Ignore
     @Test
     public void testCreateBookWithoutTitle(){
         UserHelper.logInAsUser("admin", "1234567890");
@@ -94,7 +91,6 @@ public class SelenideTest extends TestBase {
         assertEquals("Should display an error saying 'Invalid data, please try again.'", "Invalid data, please try again.", addBookPage.getInvalidDataMessage()); 
     }
     
-    @Ignore
     @Test
     public void testCreateUserWithExisitngUsername(){
         String password = randomizers.generateAlphabeticString(5);
@@ -106,7 +102,6 @@ public class SelenideTest extends TestBase {
         assertEquals("Should display error about username already existing", "Unable to add user: Unable to create entity: Bad Request, User with same display name already exists.", addUserPage.getAddUserErrorMessage());
     }
     
-    @Ignore
     @Test
     public void testCreateAndDeleteBook(){
         String title = randomizers.generateAlphabeticString(5);
@@ -132,7 +127,6 @@ public class SelenideTest extends TestBase {
         assertEquals("Error message should say 'Invalid book'", "Invalid book.", bookPage.getInvalidBookMessage());
     }
     
-    @Ignore
     @Test
     public void testCreateAndDeleteNewAuthor(){
         String authorFirstName = randomizers.generateAlphabeticString(5);
@@ -160,7 +154,6 @@ public class SelenideTest extends TestBase {
         assertEquals("Error message should say 'Invalid author.'", "Invalid author.", authorPage.getInvalidAuthorMessage());
     }
     
-    @Ignore
     @Test
     public void testChangeUserEmail(){
         String username = randomizers.generateAlphabeticString(5);
@@ -184,7 +177,6 @@ public class SelenideTest extends TestBase {
         assertEquals("Email should be " + newEmail, newEmail, myProfilePage.getEmail());
     }
     
-    @Ignore
     @Test
     public void testChangePublishDate(){
         String newDate = randomizers.generateRandomDate();
@@ -211,7 +203,6 @@ public class SelenideTest extends TestBase {
         assertEquals("Date should be " + newDate, newDate, bookPage.getDate());
     }
     
-    @Ignore
     @Test
     public void testBorrowAndReturnBook(){
         String username = randomizers.generateAlphabeticString(5);

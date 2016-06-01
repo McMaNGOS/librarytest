@@ -1,7 +1,3 @@
-// NOTE: Database MUST be refreshed in between testing, otherwise some tests WILL fail.
-// Restoring modified entries to the database would be a necessary change to the tests
-// if maintainability were to be a requirement.
-
 package se.nackademin.librarytest.rest;
 
 import org.junit.Test;

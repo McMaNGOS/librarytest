@@ -5,24 +5,30 @@ import static com.jayway.restassured.RestAssured.given;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 import java.util.UUID;
+import se.nackademin.librarytest.methods.Randomizers;
 
 
 public class AuthorsOperations {
     
     private static final String BASE_URL = "http://localhost:8080/librarytest-rest/";
     private String jsonString = "";
+    Randomizers randomizers = new Randomizers();
     
     public Response createRandomAuthor(){
         String resourceName = "authors";
-        String name = UUID.randomUUID().toString();
-        String postBodyTemplate = ""
-                + "{\n"
-                + "\"author\":\n"
-                + "  {\n"
-                + "    \"name\": \"%s\"\n"
+        String bio = randomizers.generateAlphabeticString(5);
+        String country = randomizers.generateAlphabeticString(5);
+        String firstName = randomizers.generateAlphabeticString(5);
+        String lastName = randomizers.generateAlphabeticString(5);
+        String postBodyTemplate = "{\n"
+                + "  \"author\": {\n"
+                + "    \"bio\": \"%s\",\n"
+                + "    \"country\": \"%s\",\n"
+                + "    \"firstName\": \"%s\",\n"
+                + "    \"lastName\": \"%s\"\n"
                 + "  }\n"
                 + "}";
-        String postBody = String.format(postBodyTemplate, name);
+        String postBody = String.format(postBodyTemplate, bio, country, firstName, lastName);
         jsonString = postBody;
         Response postResponse = given().contentType(ContentType.JSON).body(postBody).post(BASE_URL+resourceName);
         return postResponse;
@@ -56,15 +62,20 @@ public class AuthorsOperations {
     
     public Response updateAuthor(int id){
         String resourceName = "authors";
-        String putBodyTemplate = ""
-                + "{\n"
-                + "\"author\":\n"
-                + "  {\n"
-                + "    \"id\": %s,\n"
-                + "    \"name\": \"Test name\"\n"
+        String bio = randomizers.generateAlphabeticString(5);
+        String country = randomizers.generateAlphabeticString(5);
+        String firstName = randomizers.generateAlphabeticString(5);
+        String lastName = randomizers.generateAlphabeticString(5);
+        String putBodyTemplate = "{\n"
+                + "  \"author\": {\n"
+                + "    \"id\": %s,"
+                + "    \"bio\": \"%s\",\n"
+                + "    \"country\": \"%s\",\n"
+                + "    \"firstName\": \"%s\",\n"
+                + "    \"lastName\": \"%s\"\n"
                 + "  }\n"
                 + "}";
-        String putBody = String.format(putBodyTemplate, id);
+        String putBody = String.format(putBodyTemplate, id, bio, country, firstName, lastName);
         jsonString = putBody;
         Response response = given().contentType(ContentType.JSON).body(putBody).put(BASE_URL+resourceName);
         return response;
