@@ -37,7 +37,7 @@ public class LoansOperations {
     public int getLatestLoanId(){
         String resourceName = "loans";
         Response getIdResponse = given().accept(ContentType.JSON).get(BASE_URL + resourceName);
-        String fetchedId = getIdResponse.jsonPath().getString("loans.loan[-1].id");
+        String fetchedId = getIdResponse.jsonPath().getString("loans.loan.id");
         int latestId = Integer.parseInt(fetchedId);
         return latestId;
     }

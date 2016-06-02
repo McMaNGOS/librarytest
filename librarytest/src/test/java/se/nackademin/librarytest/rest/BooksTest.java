@@ -72,7 +72,7 @@ public class BooksTest {
     
     @Test
     public void testAddAuthorToBook(){
-        Response response = new BookOperations().addAuthorToBook(1, 1);
+        Response response = new BookOperations().addAuthorToBook(2, 5);
         assertEquals("Status code should be 200", 200, response.getStatusCode());
     }
     

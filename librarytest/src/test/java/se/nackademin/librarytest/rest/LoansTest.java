@@ -32,5 +32,8 @@ public class LoansTest {
         
         Response response = new LoansOperations().getLoanById(latestLoanId);
         assertEquals("Status code should be 200", 200, response.getStatusCode());
+        
+        Response deleteResponse = new LoansOperations().deleteLoanById(latestLoanId);
+        assertEquals("Status code should be 204", 204, deleteResponse.getStatusCode());
     }
 }

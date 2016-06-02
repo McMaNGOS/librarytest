@@ -111,44 +111,18 @@ public class BookOperations {
         return response;
     }
     
-//    public Response addAuthorToBook(int bookId, int authorId){
-//        String resourceName = "books/"+bookId+"/authors";
-//        String resourceAuthor = "authors/"+authorId;
-//        String postBody = given().accept(ContentType.JSON).get(BASE_URL+resourceAuthor).asString();
-//        Response response = given().contentType(ContentType.JSON).body(postBody).post(BASE_URL+resourceName);
-//        return response;
-//    }
-    
-//    public Response addAuthorToBook(int bookId, int authorId){
-//        String resourceName = "books/"+bookId+"/authors";
-//        String bio = randomizers.generateAlphabeticString(5);
-//        String country = randomizers.generateAlphabeticString(5);
-//        String firstName = randomizers.generateAlphabeticString(5);
-//        String lastName = randomizers.generateAlphabeticString(5);
-//        String postBodyTemplate = "{\n"
-//                + "  \"author\": {\n"
-//                + "    \"id\": %s,\n"
-//                + "    \"bio\": \"%s\",\n"
-//                + "    \"country\": \"%s\",\n"
-//                + "    \"firstName\": \"%s\",\n"
-//                + "    \"lastName\": \"%s\"\n"
-//                + "  }\n"
-//                + "}";
-//        String postBody = String.format(postBodyTemplate, authorId, bio, country, firstName, lastName);
-//        jsonString = postBody;
-//        Response postResponse = given().contentType(ContentType.JSON).body(postBody).post(BASE_URL+resourceName);
-//        return postResponse;
-//    }
-    
     public Response addAuthorToBook(int bookId, int authorId){
         String resourceName = "books/"+bookId+"/authors";
-        String postBodyTemplate = "{\n"
-                + "  \"author\": {\n"
-                + "    \"id\": %s,\n"
+        String putBodyTemplate = "{\n"
+                + "    \"authors\": {\n"
+                + "        \"author\": {\n"
+                + "            \"id\": %s\n"
+                + "        }\n"
+                + "    }\n"
                 + "}";
-        String postBody = String.format(postBodyTemplate, authorId);
-        jsonString = postBody;
-        Response postResponse = given().contentType(ContentType.JSON).body(postBody).post(BASE_URL+resourceName);
+        String putBody = String.format(putBodyTemplate, authorId);
+        jsonString = putBody;
+        Response postResponse = given().contentType(ContentType.JSON).body(putBody).put(BASE_URL+resourceName);
         return postResponse;
     }
     
