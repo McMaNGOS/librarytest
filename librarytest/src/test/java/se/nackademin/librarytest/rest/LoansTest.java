@@ -80,6 +80,11 @@ public class LoansTest {
         
         Response getResponse = new LoansOperations().getLoansOfUser(13);
         assertEquals("Status code should be 200", 200, getResponse.getStatusCode());
+        
+        int latestLoanId = new LoansOperations().getLatestLoanId();
+        
+        Response deleteResponse = new LoansOperations().deleteLoanById(latestLoanId);
+        assertEquals("Status code should be 204", 204, deleteResponse.getStatusCode());
     }
     
     // /loans/ofbook/{book_id} endpoint coverage (1/1)
@@ -91,6 +96,11 @@ public class LoansTest {
         
         Response getResponse = new LoansOperations().getLoansOfBook(1);
         assertEquals("Status code should be 200", 200, getResponse.getStatusCode());
+        
+        int latestLoanId = new LoansOperations().getLatestLoanId();
+        
+        Response deleteResponse = new LoansOperations().deleteLoanById(latestLoanId);
+        assertEquals("Status code should be 204", 204, deleteResponse.getStatusCode());
     }
     
     // /loans/ofuser/{user_id}/ofbook/{book_id} endpoint coverage (1/1)
@@ -102,5 +112,10 @@ public class LoansTest {
         
         Response getResponse = new LoansOperations().getLoanOfBookByUser(1, 13);
         assertEquals("Status code should be 200", 200, getResponse.getStatusCode());
+        
+        int latestLoanId = new LoansOperations().getLatestLoanId();
+        
+        Response deleteResponse = new LoansOperations().deleteLoanById(latestLoanId);
+        assertEquals("Status code should be 204", 204, deleteResponse.getStatusCode());
     }
 }
